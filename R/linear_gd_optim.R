@@ -1,3 +1,17 @@
+#' Cacca
+#'
+#' Creates a plot of the crayon colors in \code{\link{linear_gd_optim}}
+#'
+#' @param method2order method to order colors
+#' @param cex character expansion for the text
+#' @param mar margin parameters; vector of length 4
+#'
+#' @return None
+#'
+#' @examples
+#' plot_crayons()
+#'
+#' @export
 linear_gd_optim <- function(b_pre,             # beta(0)
                             X,               # data predictors
                             y,               # response variable
