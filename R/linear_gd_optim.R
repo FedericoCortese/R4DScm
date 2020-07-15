@@ -1,4 +1,4 @@
-#' Cacca
+#' Linear Gradient Descend
 #'
 #' Creates a plot of the crayon colors in \code{\link{linear_gd_optim}}
 #'
