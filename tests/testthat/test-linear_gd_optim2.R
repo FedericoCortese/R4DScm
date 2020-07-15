@@ -6,7 +6,7 @@ test_that("linear_grad_optim2 works", {
   x2 = rnorm(n)
   y = 1 + .5*x1 + .2*x2 + rnorm(n)
 
-  X=cbind(1,x1,x2)
+  X=cbind(x1,x2)
   b_pre=c(1,.5,.2)
   # fit=linear_gd_optim(b_pre,X,y)
 

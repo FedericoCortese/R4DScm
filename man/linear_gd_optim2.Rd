@@ -2,7 +2,7 @@
 % Please edit documentation in R/linear_gd_optim2.R
 \name{linear_gd_optim2}
 \alias{linear_gd_optim2}
-\title{Illustration of crayon colors}
+\title{Linear Gradient Descend (2)}
 \usage{
 linear_gd_optim2(
   b_pre,
@@ -14,19 +14,31 @@ linear_gd_optim2(
 )
 }
 \arguments{
-\item{method2order}{method to order colors (\code{"hsv"} or \code{"cluster"})}
+\item{b_pre}{vector of initial parameters}
 
-\item{cex}{character expansion for the text}
+\item{X}{Covariates Matrix: each column contains observations for each covariate.}
 
-\item{mar}{margin parameters; vector of length 4 (see \code{\link[graphics]{par}})}
+\item{y}{Response variable observations}
+
+\item{tolerance}{Tolerance level for the optimization process, the default is 0.001.}
+
+\item{maxit}{Maximum iterations number. Default is 1000.}
+
+\item{stepsize}{The value for the stepsize in the equation of the gradient descend. Default is 0.001.}
 }
 \value{
-None
+A list containing the fitted values for the beta vector and the number of iterations performed.
 }
 \description{
-Creates a plot of the crayon colors in \code{\link{linear_gd_optim2}}
+This function is the slower version of \code{\link{linear_gd_optim}} given that it makes use of the \code{\link{grad}} function contained in the package "numDeriv".
 }
 \examples{
-plot_crayons()
-
+set.seed(8675309)
+n = 1000
+x1 = rnorm(n)
+x2 = rnorm(n)
+y = 1 + .5*x1 + .2*x2 + rnorm(n)
+X=cbind(x1,x2)
+b_pre=c(0,0,0)
+linear_gd_optim(b_pre,X,y)#'
 }

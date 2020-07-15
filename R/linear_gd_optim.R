@@ -1,16 +1,26 @@
 #' Linear Gradient Descend
 #'
-#' Creates a plot of the crayon colors in \code{\link{linear_gd_optim}}
+#' This function  computes the vector of parameters in a linear regression model via the Gradient Descend Method.
 #'
-#' @param method2order method to order colors
-#' @param cex character expansion for the text
-#' @param mar margin parameters; vector of length 4
+#' @param b_pre vector of initial parameters
+#' @param X Covariates Matrix: each column contains observations for each covariate.
+#' @param y Response variable observations
+#' @param tolerance Tolerance level for the optimization process, the default is 0.001.
+#' @param maxit Maximum iterations number
+#' @param stepsize The value for the stepsize in the equation of the gradient descend
 #'
-#' @return None
+#' @return A list containing the fitted values for the beta vector and the number of iterations performed
 #'
 #' @examples
-#' plot_crayons()
-#'
+#' set.seed(8675309)
+#' n = 1000
+#' x1 = rnorm(n)
+#' x2 = rnorm(n)
+#' y = 1 + .5*x1 + .2*x2 + rnorm(n)
+#' X=cbind(x1,x2)
+
+#' b_pre=c(0,0,0)
+#' linear_gd_optim(b_pre,X,y)
 #' @export
 linear_gd_optim <- function(b_pre,             # beta(0)
                             X,               # data predictors
@@ -31,6 +41,7 @@ linear_gd_optim <- function(b_pre,             # beta(0)
     }
     return(l)
   }
+  X=cbind(1,X)
 
   b_post=b_pre-gradL(b_pre,X=X,y=y)*stepsize
   it=1
