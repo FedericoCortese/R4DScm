@@ -20,7 +20,7 @@
 #' X=cbind(x1,x2)
 
 #' b_pre=c(0,0,0)
-#' linear_gd_optim(b_pre,X,y)#'
+#' linear_gd_optim(b_pre,X,y)
 #' @export
 linear_gd_optim2 <- function(b_pre,             # beta(0)
                               X,               # data predictors
