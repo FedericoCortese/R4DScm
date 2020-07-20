@@ -40,5 +40,5 @@ x2 = rnorm(n)
 y = 1 + .5*x1 + .2*x2 + rnorm(n)
 X=cbind(x1,x2)
 b_pre=c(0,0,0)
-linear_gd_optim(b_pre,X,y)#'
+linear_gd_optim(b_pre,X,y)
 }
