@@ -15,7 +15,7 @@ This is an example of usage of the functions "linear_gd_optim" and "linear_gd_op
 We except the first function to be faster than the second one.
 Consider the following simulated dataset:
 
-```{}
+```{r}
 library(gradescCM)
 set.seed(8675309)
 n = 1000
@@ -23,13 +23,13 @@ x1 = rnorm(n)
 x2 = rnorm(n)
 y = 1 + .5*x1 + .2*x2 + rnorm(n)
 X=cbind(x1,x2)
-
+options(warn=-1)
 ```
 
 We set the initial values for the parameters' vector beta equal to
 
 
-```{}
+```{r}
 b_pre=c(0,0,0)
 tolerance=1e-6
 maxit=10^5
@@ -38,29 +38,20 @@ maxit=10^5
 
 For the first function we have
 
-```{}
+```{r}
 linear_gd_optim(b_pre,X,y,tolerance=tolerance,maxit=maxit)
 
 ```
-$beta
-[1] 0.9842739 0.4865471 0.2175594
-
-$iterations
-[1] 3827
 
 For the second function
-```{}
+```{r}
 linear_gd_optim2(b_pre,X,y,tolerance=tolerance,maxit=maxit)
 
 ```
-$beta
-[1] 0.9842739 0.4865471 0.2175594
 
-$iterations
-[1] 3827
 
 Time consuming: 
-```{echo=FALSE}
+```{r}
 library(dplyr)
 library(purrr)
 library(readr)
@@ -73,11 +64,12 @@ show_bm=function(bm){
   print(bm)
   autoplot(bm)
 }
+
 bench::mark(
   check=F,
   bare=NULL,
   first=linear_gd_optim(b_pre,X,y),
   second=linear_gd_optim2(b_pre,X,y)
-) %>% show_bm()
+)%>% show_bm()
 
 ```
