@@ -78,7 +78,7 @@ The first version is clearly faster then the second one.
 Consider now the Steepest descend method
 
 ```{r}
-basic_sd(b_pre,X,y,tolerance=tolerance,maxit=maxit)
+basic_sd(b_pre,X,y,tol=tol,maxit=maxit)
 
 ```
 
