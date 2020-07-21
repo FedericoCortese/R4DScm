@@ -19,10 +19,10 @@
 #' X=cbind(x1,x2)
 
 #' b_pre <- c(0,0,0)
-#' basic_sd(y, X, b_pre)
+#' basic_sd(b_pre,X,y)
 #' @export
 
-basic_sd <- function(y, X, beta, tol = 1e-3, maxit = 1000) {
+basic_sd <- function(beta,X,y, tol = 1e-3, maxit = 1000) {
   X <- cbind(1, X)
   tX <- t(X)
   prod <- tX%*%X

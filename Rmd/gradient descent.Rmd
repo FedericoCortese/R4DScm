@@ -31,7 +31,7 @@ We set the initial values for the parameters' vector beta equal to
 
 ```{r}
 b_pre=c(0,0,0)
-tolerance=1e-6
+tol=1e-6
 maxit=10^5
 
 ```
@@ -39,13 +39,13 @@ maxit=10^5
 For the first function we have
 
 ```{r}
-linear_gd_optim(b_pre,X,y,tolerance=tolerance,maxit=maxit)
+linear_gd_optim(b_pre,X,y,tol=tol,maxit=maxit)
 
 ```
 
 For the second function
 ```{r}
-linear_gd_optim2(b_pre,X,y,tolerance=tolerance,maxit=maxit)
+linear_gd_optim2(b_pre,X,y,tol=tol,maxit=maxit)
 
 ```
 
@@ -73,3 +73,24 @@ bench::mark(
 )%>% show_bm()
 
 ```
+
+The first version is clearly faster then the second one. 
+Consider now the Steepest descend method
+
+```{r}
+basic_sd(b_pre,X,y,tolerance=tolerance,maxit=maxit)
+
+```
+
+Let us compare the Gradient Descend and the Steepest Descend:
+
+```{r}
+bench::mark(
+  check=F,
+  bare=NULL,
+  GD=linear_gd_optim(b_pre,X,y),
+  SD=basic_sd(b_pre,X,y)
+)%>% show_bm()
+
+```
+
