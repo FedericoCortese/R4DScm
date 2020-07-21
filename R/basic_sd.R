@@ -2,13 +2,13 @@
 #'
 #' This function  computes the vector of parameters in a linear regression model via the Steepest Descend Method.
 #'
-#' @param beta: vector of initial parameters
+#' @param beta vector of initial parameters
 #' @param X Covariates Matrix: each column contains observations for each covariate.
 #' @param y Response variable observations
 #' @param tol Tolerance level for the optimization process, the default is 0.001.
 #' @param maxit Maximum iterations number
 #'
-#' @return A list containing the fitted values for the beta vector and the number of iterations performed
+#' @return A list containing the fitted values for the beta vector and  the number of iterations performed
 #'
 #' @examples
 #' set.seed(8675309)

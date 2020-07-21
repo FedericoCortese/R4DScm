@@ -4,14 +4,7 @@
 \alias{linear_gd_optim2}
 \title{Linear Gradient Descend (2)}
 \usage{
-linear_gd_optim2(
-  b_pre,
-  X,
-  y,
-  tolerance = 0.001,
-  maxit = 1000,
-  stepsize = 0.001
-)
+linear_gd_optim2(b_pre, X, y, tol = 0.001, maxit = 1000, stepsize = 0.001)
 }
 \arguments{
 \item{b_pre}{vector of initial parameters}
@@ -20,7 +13,7 @@ linear_gd_optim2(
 
 \item{y}{Response variable observations}
 
-\item{tolerance}{Tolerance level for the optimization process, the default is 0.001.}
+\item{tol}{Tolerance level for the optimization process, the default is 0.001.}
 
 \item{maxit}{Maximum iterations number. Default is 1000.}
 

@@ -5,7 +5,7 @@
 #' @param b_pre vector of initial parameters
 #' @param X Covariates Matrix: each column contains observations for each covariate.
 #' @param y Response variable observations
-#' @param tolerance Tolerance level for the optimization process, the default is 0.001.
+#' @param tol Tolerance level for the optimization process, the default is 0.001.
 #' @param maxit Maximum iterations number
 #' @param stepsize The value for the stepsize in the equation of the gradient descend
 #'
@@ -25,12 +25,13 @@
 linear_gd_optim <- function(b_pre,             # beta(0)
                             X,               # data predictors
                             y,               # response variable
-                            tolerance=1e-3,  # tolerance
+                            tol=1e-3,  # tolerance
                             maxit=1000,      # max iteration, not to run forever
                             stepsize=1e-3#,   # stepsize parameter
                             #verbose=F
 ) {
 
+  X <- cbind(1, X)
   gradL=function(b,X,y){
 
     l=numeric()
@@ -41,26 +42,19 @@ linear_gd_optim <- function(b_pre,             # beta(0)
     }
     return(l)
   }
-  X=cbind(1,X)
 
   b_post=b_pre-gradL(b_pre,X=X,y=y)*stepsize
-  it=1
+  diff <- tol + 1
+  iter <- 0
 
-  while(max(abs(b_pre-b_post))>tolerance){
-
-    if(it==maxit){
-      return(b_post)
-    }
-
-    else{
-      b_pre=b_post
-      b_post=b_post-gradL(b_post,X,y)*stepsize
-      it=it+1
-    }
-
+  while (diff > tol & iter <= maxit) {
+    b_pre=b_post
+    b_post=b_post-gradL(b_post,X,y)*stepsize
+    iter=iter+1
+    diff=max(abs(b_pre-b_post))
   }
 
-  return(list(beta=b_post,iterations=it))
+  return(list(param=b_post,iter=iter))
 
 }
 
