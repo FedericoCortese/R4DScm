@@ -8,12 +8,14 @@ test_that("linear_grad_optim works", {
   X=cbind(x1,x2)
   maxit=10000
   tol=1e-6
-  stepsize=1e-3
+  stepsize=1e-2
 
   b_pre=c(0,0,0)
-  estimate=linear_gd_optim(b_pre,X,y,maxit = maxit,tol = tol,stepsize = stepsize)$param
+  estimate=as.vector(linear_gd_optim(b_pre,X,y,tol=tol,maxit=maxit,stepsize = stepsize)$param)
 
-  expect_equal(round(estimate,3),
-               c(1,.5,.2),tolerance=1e-1)
+  fit=as.vector(coef(lm(y~x1+x2)))
+
+  expect_equal(estimate,
+               fit,tolerance=1e-4)
 
 })

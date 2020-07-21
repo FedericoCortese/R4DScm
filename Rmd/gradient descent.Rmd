@@ -1,6 +1,6 @@
 ---
-title: "Gradient_descend"
-author: "Federico Cortese"
+title: "Gradient_descend & Steepest_Descend"
+author: "Federico Cortese - Alessandro Mascaro"
 date: "15/7/2020"
 output: html_document
 ---

@@ -32,24 +32,17 @@ linear_gd_optim <- function(b_pre,             # beta(0)
 ) {
 
   X <- cbind(1, X)
-  gradL=function(b,X,y){
 
-    l=numeric()
-    k=length(b)
-
-    for(i in 1:k){
-      l[i]=2*mean((X%*%b-y)*X[,i])
-    }
-    return(l)
-  }
-
-  b_post=b_pre-gradL(b_pre,X=X,y=y)*stepsize
+  k=length(b_pre)
+  gradient=sapply(1:k, function(i) 2*mean((X%*%b_pre-y)*X[,i]))
+  b_post=b_pre-gradient*stepsize
   diff <- tol + 1
   iter <- 0
 
   while (diff > tol & iter <= maxit) {
     b_pre=b_post
-    b_post=b_post-gradL(b_post,X,y)*stepsize
+    gradient=sapply(1:k, function(i) 2*mean((X%*%b_pre-y)*X[,i]))
+    b_post=b_pre-gradient*stepsize
     iter=iter+1
     diff=max(abs(b_pre-b_post))
   }

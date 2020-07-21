@@ -11,9 +11,11 @@ test_that("linear_grad_optim2 works", {
   stepsize=1e-3
 
   b_pre=c(0,0,0)
-  estimate=linear_gd_optim2(b_pre,X,y,maxit=maxit,tol = tol)$param
+  estimate=as.vector(linear_gd_optim2(b_pre,X,y,tol=tol,maxit=maxit,stepsize = stepsize)$param)
 
-  expect_equal(round(estimate,3),
-               c(1,.5,.2),tolerance=1e-1)
+  fit=as.vector(coef(lm(y~x1+x2)))
+
+  expect_equal(estimate,
+               fit,tolerance=1e-4)
 
 })
