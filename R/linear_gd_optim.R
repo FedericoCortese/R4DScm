@@ -35,6 +35,8 @@ linear_gd_optim <- function(b_pre,             # beta(0)
 
   k=length(b_pre)
   gradient=sapply(1:k, function(i) 2*mean((X%*%b_pre-y)*X[,i]))
+
+
   b_post=b_pre-gradient*stepsize
   diff <- tol + 1
   iter <- 0
@@ -42,6 +44,7 @@ linear_gd_optim <- function(b_pre,             # beta(0)
   while (diff > tol & iter <= maxit) {
     b_pre=b_post
     gradient=sapply(1:k, function(i) 2*mean((X%*%b_pre-y)*X[,i]))
+
     b_post=b_pre-gradient*stepsize
     iter=iter+1
     diff=max(abs(b_pre-b_post))
