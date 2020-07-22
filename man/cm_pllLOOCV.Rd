@@ -21,7 +21,8 @@ cm_pllLOOCV(y, X, b_pre, tol = 0.001, maxit = 1000)
 The mean squared error of prediction
 }
 \description{
-This function performs a LOOCV using DOSNOW and foreach to parallelize computations
+This function performs a parallelized LOOCV to evaluate the prediction accuracy of a linear regression whose parameter are computed through a Steepest descent algorithm.
+It always uses the maximum number of cores possible.
 }
 \examples{
 set.seed(8675309)

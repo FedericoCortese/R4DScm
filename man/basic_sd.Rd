@@ -4,14 +4,14 @@
 \alias{basic_sd}
 \title{Linear Steepest Descend}
 \usage{
-basic_sd(y, X, beta, tol = 0.001, maxit = 1000)
+basic_sd(beta, X, y, tol = 0.001, maxit = 1000)
 }
 \arguments{
-\item{y}{Response variable observations}
+\item{beta}{vector of initial parameters}
 
 \item{X}{Covariates Matrix: each column contains observations for each covariate.}
 
-\item{beta}{vector of initial parameters}
+\item{y}{Response variable observations}
 
 \item{tol}{Tolerance level for the optimization process, the default is 0.001.}
 
@@ -31,5 +31,5 @@ x2 = rnorm(n)
 y = 1 + .5*x1 + .2*x2 + rnorm(n)
 X=cbind(x1,x2)
 b_pre <- c(0,0,0)
-basic_sd(y, X, b_pre)
+basic_sd(b_pre,X,y)
 }

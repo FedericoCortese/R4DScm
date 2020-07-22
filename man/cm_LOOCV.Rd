@@ -21,7 +21,7 @@ cm_LOOCV(y, X, b_pre, tol = 0.001, maxit = 1000)
 The mean squared error of prediction
 }
 \description{
-This function performs a simple LOOCV
+This function performs a simple LOOCV to evaluate the prediction accuracy of a linear regression whose parameter are computed through a Steepest descent algorithm
 }
 \examples{
 set.seed(8675309)

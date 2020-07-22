@@ -1,6 +1,6 @@
 #' Sequential Leave one out cross validation
 #'
-#' This function performs a simple LOOCV
+#' This function performs a simple LOOCV to evaluate the prediction accuracy of a linear regression whose parameter are computed through a Steepest descent algorithm
 #'
 #' @param b: vector of initial parameters
 #' @param X Covariates Matrix: each column contains observations for each covariate.

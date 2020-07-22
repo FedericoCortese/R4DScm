@@ -10,6 +10,18 @@ knitr::opts_chunk$set(echo = TRUE)
 library(doSNOW)
 ```
 
+## Introduction
+
+`gradescCM` is a toy R package developed by Federico Cortese and Alessandro Mascaro and freely available on GitHub. It includes functions to perform linear regression and basic loocv implementations to evaluate the linear fit. 
+To install and load the package, the following code is sufficient
+
+```{r eval = FALSE}
+# install.packages('devtools')
+library(devtools)
+install_github('FedericoCortese/R4DScm')
+library(gradescCM)
+```
+
 ## Gradient descent and steepest descent
 
 This is an example of usage of the functions 'linear_gd_optim' and 'linear_gd_optim2'. The first function contains the analitycal expression for the gradient of the loss function, whereas the second makes use of the function "grad" from the package 'numDeriv'.
@@ -136,8 +148,8 @@ We can compare their efficiency as usual
 bench::mark(
   check=F,
   bare=NULL,
-  first=cm_LOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit),
-  second=cm_pllLOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit)
+  sequential=cm_LOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit),
+  parallel=cm_pllLOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit)
 )%>% show_bm()
 
 ```
@@ -146,7 +158,7 @@ As a second example let's consider the following slightly modified dataset, in w
 
 ```{r}
 set.seed(8675309)
-n = 10^4
+n = 2*10^4
 x1 = rnorm(n)
 x2 = rnorm(n)
 y = 1 + .5*x1 + .2*x2 + rnorm(n)
@@ -173,9 +185,10 @@ And again we compare the efficiency of the two algorithms
 ```{r}
 bench::mark(
   check=F,
-  first=cm_LOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit),
-  second=cm_pllLOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit)
-)%>% show_bm()
+  bare = NULL,
+  sequential=cm_LOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit),
+  parallel=cm_pllLOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit)
+) %>% show_bm()
 
 ```
 
