@@ -1,7 +1,7 @@
 ---
 title: "GradesCM package"
 author: "Federico Cortese - Alessandro Mascaro"
-date: "15/7/2020"
+date: "24/7/2020"
 output: html_document
 ---
 
@@ -24,11 +24,11 @@ library(gradescCM)
 
 ## Gradient descent and steepest descent
 
-This is an example of usage of the functions 'linear_gd_optim' and 'linear_gd_optim2'. The first function contains the analitycal expression for the gradient of the loss function, whereas the second makes use of the function "grad" from the package 'numDeriv'.
+This is an example of usage of the functions `linear_gd_optim` and `linear_gd_optim2`. The first function contains the analitycal expression for the gradient of the loss function, whereas the second makes use of the function `grad` from the package `numDeriv`.
 We expect the first function to be faster than the second one.
 Consider the following simulated dataset:
 
-```{r}
+```{r warning=FALSE}
 library(gradescCM)
 set.seed(8675309)
 n = 1000
@@ -36,7 +36,6 @@ x1 = rnorm(n)
 x2 = rnorm(n)
 y = 1 + .5*x1 + .2*x2 + rnorm(n)
 X=cbind(x1,x2)
-options(warn=-1)
 ```
 
 We set the initial values for the parameters' vector beta equal to
@@ -64,7 +63,7 @@ linear_gd_optim2(b_pre,X,y,tol=tol,maxit=maxit)
 
 
 Time consuming: 
-```{r}
+```{r warning=FALSE}
 library(dplyr)
 library(purrr)
 library(readr)
@@ -88,14 +87,14 @@ bench::mark(
 ```
 
 The first version is clearly faster than the second one. 
-Consider now the Steepest descend method
+Consider now the Steepest descent method
 
 ```{r}
 basic_sd(b_pre,X,y,tol=tol,maxit=maxit)
 
 ```
 
-Let us compare the Gradient Descend and the Steepest Descend:
+Let us compare the Gradient Descent and the Steepest Descent:
 
 ```{r}
 bench::mark(
@@ -107,13 +106,15 @@ bench::mark(
 
 ```
 
+As it can be observed, the steepest descent algorithm is much faster than the gradient descent. The main reason is that the choice of the stepsize of the steepest descent algorithm (which depends on the Hessian) makes it perform less iterations. 
+
 ## Leave-one-out cross validation
 
-This are two examples of usage of the functions 'cm_LOOCV' and 'cm_pllLOOCV'. Both functions allow a simple computation of the mean squared error of prediction arising from a linear regression (whose parameters are computed through a Steepest descent method) through LOOCV, a well known resampling method. The first function perform a sequential LOOCV, while the second one allows for some parallelization that may speed up computation. 
+This are two examples of usage of the functions `cm_LOOCV` and `cm_pllLOOCV`. Both functions allow a simple computation of the mean squared error of prediction arising from a linear regression (whose parameters are computed through a Steepest descent method) through LOOCV, a well known resampling method. The first function perform a sequential LOOCV, while the second one allows for some parallelization that may speed up computation. 
 
 As a first example, let's consider the usual dataset:
 
-```{r eval = FALSE}
+```{r eval = FALSE, warning=FALSE}
 library(gradescCM)
 set.seed(8675309)
 n = 1000
@@ -121,7 +122,6 @@ x1 = rnorm(n)
 x2 = rnorm(n)
 y = 1 + .5*x1 + .2*x2 + rnorm(n)
 X=cbind(x1,x2)
-options(warn=-1)
 ```
 
 We set the initial values for the parameters' vector beta, together with the tolerance and maximum number of iterations:

@@ -13,4 +13,5 @@ Suggests:
     testthat
 Imports: 
     numDeriv
+    doSNOW
 RoxygenNote: 7.1.1
