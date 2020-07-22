@@ -13,5 +13,6 @@ Suggests:
     testthat
 Imports: 
     numDeriv,
-    doSNOW
+    doSNOW,
+    foreach
 RoxygenNote: 7.1.1
