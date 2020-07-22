@@ -30,7 +30,7 @@ cm_LOOCV <- function(y, X, b_pre, tol = 1e-3, maxit = 1000) {
     X_loocv <- X[-i,]
     X_out <- c(1,X[i,])
 
-    beta_loocv <- basic_sd(y_loocv, X_loocv, b_pre, tol = tol, maxit = maxit)
+    beta_loocv <- basic_sd(y = y_loocv, beta = b_pre, X = X_loocv, tol = tol, maxit = maxit)
     yhat_loocv <- X_out%*%beta_loocv$param
     err[i] <- (y[i] - yhat_loocv)
   }

@@ -1,5 +1,5 @@
 ---
-title: "Gradient_descend & Steepest_Descend"
+title: "GradesCM package"
 author: "Federico Cortese - Alessandro Mascaro"
 date: "15/7/2020"
 output: html_document
@@ -7,11 +7,12 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(doSNOW)
 ```
 
-## R Markdown
+## Gradient descent and steepest descent
 
-This is an example of usage of the functions "linear_gd_optim" and "linear_gd_optim2". The first function contains the analitycal expression for the gradient of the loss function, whereas the second makes use of the function "grad" from the package "numDeriv".
+This is an example of usage of the functions 'linear_gd_optim' and 'linear_gd_optim2'. The first function contains the analitycal expression for the gradient of the loss function, whereas the second makes use of the function "grad" from the package 'numDeriv'.
 We except the first function to be faster than the second one.
 Consider the following simulated dataset:
 
@@ -94,3 +95,88 @@ bench::mark(
 
 ```
 
+## Leave-one-out cross validation
+
+This are two examples of usage of the functions 'cm_LOOCV' and 'cm_pllLOOCV'. Both functions allow a simple computation of the mean squared error of prediction arising from a linear regression (whose parameters are computed through a Steepest descent method) through LOOCV, a well known resampling method. The first function perform a sequential LOOCV, while the second one allows for some parallelization that may speed up computation. 
+
+As a first example, let's consider the usual dataset:
+
+```{r eval = FALSE}
+library(gradescCM)
+set.seed(8675309)
+n = 1000
+x1 = rnorm(n)
+x2 = rnorm(n)
+y = 1 + .5*x1 + .2*x2 + rnorm(n)
+X=cbind(x1,x2)
+options(warn=-1)
+```
+
+We set the initial values for the parameters' vector beta, together with the tolerance and maximum number of iterations:
+
+```{r}
+b_pre=c(0,0,0)
+tol=1e-3
+maxit=10^3
+```
+
+For the first function we have
+```{r}
+cm_LOOCV(y = y, X = X, b_pre = b_pre, tol = tol, maxit = maxit)
+```
+
+For the second function
+```{r}
+cm_pllLOOCV(y = y, X = X, b_pre = b_pre, tol = tol, maxit = maxit)
+```
+
+We can compare their efficiency as usual
+
+```{r}
+bench::mark(
+  check=F,
+  bare=NULL,
+  first=cm_LOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit),
+  second=cm_pllLOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit)
+)%>% show_bm()
+
+```
+
+As a second example let's consider the following slightly modified dataset, in which the number of observations is scaled up to $10^4$
+
+```{r}
+set.seed(8675309)
+n = 10^4
+x1 = rnorm(n)
+x2 = rnorm(n)
+y = 1 + .5*x1 + .2*x2 + rnorm(n)
+X=cbind(x1,x2)
+options(warn=-1)
+```
+
+Again, we set the initial values for the parameters' vector beta, together with the tolerance and maximum number of iterations:
+
+```{r}
+b_pre=c(0,0,0)
+tol=1e-3
+maxit=10^3
+```
+
+We have 
+```{r}
+cm_LOOCV(y = y, X = X, b_pre = b_pre, tol = tol, maxit = maxit)
+cm_pllLOOCV(y = y, X = X, b_pre = b_pre, tol = tol, maxit = maxit)
+```
+
+And again we compare the efficiency of the two algorithms 
+
+```{r}
+bench::mark(
+  check=F,
+  first=cm_LOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit),
+  second=cm_pllLOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit)
+)%>% show_bm()
+
+```
+
+As it can be observed, in the first example, the sequential version of LOOCV is more efficient than the parallized one and viceversa. Hence, parallelizing the algorithm is not always computationally convenient, as for small dataset the cost of setting up the parallelization may be higher than the gain in efficiency. Clearly the more complex the problem at hand is, the more the advantages of using parallelization. 
