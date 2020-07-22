@@ -1,5 +1,5 @@
 ---
-title: "GradesCM package"
+title: "GradescCM package"
 author: "Federico Cortese - Alessandro Mascaro"
 date: "24/7/2020"
 output: html_document
@@ -8,11 +8,17 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(doSNOW)
+library(dplyr)
+library(purrr)
+library(readr)
+library(readxl)
+library(ggplot2)
+library(tidyr)
 ```
 
 ## Introduction
 
-`gradescCM` is a toy R package developed by Federico Cortese and Alessandro Mascaro and freely available on GitHub. It includes functions to perform linear regression and basic loocv implementations to evaluate the linear fit. 
+`gradescCM` is a toy R package developed by Federico Cortese and Alessandro Mascaro and available on GitHub. It includes functions to perform linear regression and basic loocv implementations to evaluate the linear fit. 
 To install and load the package, the following code is sufficient
 
 ```{r eval = FALSE}
@@ -63,15 +69,15 @@ linear_gd_optim2(b_pre,X,y,tol=tol,maxit=maxit)
 
 
 Time consuming: 
-```{r warning=FALSE}
+```{r warning=FALSE, eval = FALSE}
 library(dplyr)
 library(purrr)
 library(readr)
 library(readxl)
 library(ggplot2)
 library(tidyr)
-
-
+```
+```{r warning=FALSE}
 show_bm=function(bm){
   print(bm)
   autoplot(bm)
@@ -79,7 +85,6 @@ show_bm=function(bm){
 
 bench::mark(
   check=F,
-  bare=NULL,
   first=linear_gd_optim(b_pre,X,y),
   second=linear_gd_optim2(b_pre,X,y)
 )%>% show_bm()
@@ -99,7 +104,6 @@ Let us compare the Gradient Descent and the Steepest Descent:
 ```{r}
 bench::mark(
   check=F,
-  bare=NULL,
   GD=linear_gd_optim(b_pre,X,y),
   SD=basic_sd(b_pre,X,y)
 )%>% show_bm()
@@ -144,10 +148,9 @@ cm_pllLOOCV(y = y, X = X, b_pre = b_pre, tol = tol, maxit = maxit)
 
 We can compare their efficiency as usual
 
-```{r}
+```{r warning = FALSE}
 bench::mark(
   check=F,
-  bare=NULL,
   sequential=cm_LOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit),
   parallel=cm_pllLOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit)
 )%>% show_bm()
@@ -185,11 +188,10 @@ And again we compare the efficiency of the two algorithms
 ```{r}
 bench::mark(
   check=F,
-  bare = NULL,
   sequential=cm_LOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit),
   parallel=cm_pllLOOCV(y, X, b_pre = b_pre, tol = tol, maxit = maxit)
 ) %>% show_bm()
 
 ```
 
-As it can be observed, in the first example, the sequential version of LOOCV is more efficient than the parallized one and viceversa. Hence, parallelizing the algorithm is not always computationally convenient, as for small dataset the cost of setting up the parallelization may be higher than the gain in efficiency. Clearly the more complex the problem at hand is, the more the advantages of using parallelization. 
+As it can be observed, in the first example, the sequential version of LOOCV is more efficient than the parallelized one and viceversa in the second one. Hence, parallelizing the algorithm is not always computationally convenient, as for small dataset the cost of setting up the parallelization may be higher than the gain in efficiency. Clearly the more computationally intensive the problem at hand is, the more the advantages of using parallelization. 

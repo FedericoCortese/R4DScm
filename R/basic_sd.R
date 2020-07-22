@@ -45,3 +45,4 @@ basic_sd <- function(beta,X,y, tol = 1e-3, maxit = 1000) {
 }
 
 
+
