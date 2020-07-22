@@ -13,7 +13,7 @@ library(doSNOW)
 ## Gradient descent and steepest descent
 
 This is an example of usage of the functions 'linear_gd_optim' and 'linear_gd_optim2'. The first function contains the analitycal expression for the gradient of the loss function, whereas the second makes use of the function "grad" from the package 'numDeriv'.
-We except the first function to be faster than the second one.
+We expect the first function to be faster than the second one.
 Consider the following simulated dataset:
 
 ```{r}
@@ -75,7 +75,7 @@ bench::mark(
 
 ```
 
-The first version is clearly faster then the second one. 
+The first version is clearly faster than the second one. 
 Consider now the Steepest descend method
 
 ```{r}
