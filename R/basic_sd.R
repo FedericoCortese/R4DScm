@@ -23,6 +23,7 @@
 #' @export
 
 basic_sd <- function(beta,X,y, tol = 1e-3, maxit = 1000) {
+  #commento inutile
   X <- cbind(1, X)
   tX <- t(X)
   prod <- tX%*%X
